@@ -5,23 +5,24 @@ This class is designed to create and assign character statistics.
 import random
 
 class Stats:
-    
-    #Default stats, stat names, and stat bonuses
+
+    #Default Stats, Stat Names, and Bonuses
     def __init__(self):
         self.my_stats = [8,10,12,13,14,15]
         self.ordered_list = ['STR','DEX','CON','INT','WIS','CHA']
         self.ordered_list_variant = ['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma']
         self.boost_list = [0,0,0,0,0,0]
         self.assigned_list = []
-    
+
+    #Show Current Base Stats
     def display_stats(self):
         print("Your stats:")
         for i in self.my_stats:
             print(i, '', end='')
         print()
-    
-    #For each stat, roll 4 six-sided dice and subtract the smallest from the sum 
-    def roll_stats(self):      
+
+    #Roll 4d6 & Subtract Lowest
+    def roll_stats(self):
         stats_rolled = []
         for i in range(6):
             die1 = random.randint(1,6)
@@ -31,24 +32,24 @@ class Stats:
             lowest = min(die1, die2, die3, die4)
             total = die1 + die2 + die3 + die4 - lowest
             stats_rolled.append(total)
-        
-        #Make a list of the rolled stats
+
+        #Replace Default Stats
         self.my_stats = stats_rolled
 
-    #Allow user to choose which stats values to put where
+    #Manual Stat Assignment
     def assign_stats(self):
         all_assigned = False
         while all_assigned == False:
-            
-            #Show stat values available and prompt for their decision
+
+            #Display Available Stats
             for stat in self.ordered_list_variant:
                 print("Remaining values:")
                 for i in self.my_stats:
                     print(i, '', end='')
                 print()
                 print("Which value would you like to assign to ", stat, "?", sep='')
-                
-                #Assure their response is valid and not repeated
+
+                #Retrieve
                 assign_response_valid = False
                 while assign_response_valid == False:
                     try:
@@ -58,18 +59,21 @@ class Stats:
                             self.my_stats.remove(assign_value)
                             assign_response_valid = True
                         else:
-                            print("Value must be from your list and may not be repeated.")
+                            print("Value must be from remaining stats.")
+
+### Will this print out twice in some cases? ###
+
                     except:
-                        print("Please enter a valid value.")            
-                print()     
+                        print("Value must be from remaining stats.")
+                print()
             all_assigned = True
-    
-    #Automate assignment for randomization
+
+    #Automated Stat Assignment
     def assign_stats_auto(self, main):
         self.assigned_list = [0,0,0,0,0,0]
         remaining = 6
-        
-        #Set main stat as highest
+
+        #Prioritize Main Stat
         for stat in self.ordered_list:
             if stat == main:
                 main_index = self.ordered_list.index(stat)
@@ -77,22 +81,19 @@ class Stats:
                 self.assigned_list[main_index] = highest
                 self.my_stats.remove(highest)
                 remaining -= 1
-        
-        #CON is always good
+
+        #Constitution is Handy
         if main != 'CON':
             highest = max(self.my_stats)
             self.assigned_list[2] = highest
             self.my_stats.remove(highest)
             remaining -= 1
 
-        #Others
-        #get indeces of unassigned stats
+        #Randomly Assign Remaining Stats
         remaining_indeces_list = []
         for i in range(6):
             if self.assigned_list[i] == 0:
                 remaining_indeces_list.append(i)
-                
-        #Assign at random based on indeces
         while remaining > 0:
             highest = max(self.my_stats)
             index = random.choice(remaining_indeces_list)
@@ -100,20 +101,18 @@ class Stats:
             self.my_stats.remove(highest)
             remaining_indeces_list.remove(index)
             remaining -= 1
-    
-    #Gather all of the relevant information and present the user with their character bio
+
+    #Gather Relevant Character Data
     def results_data(self, name, race, subrace, speed, age, ch_class, base_hp, armor, shield, weapons):
         self.bio = [name,race,subrace,speed,age,ch_class,base_hp,armor,shield,weapons]
-        
-        #Starting health is determined by the class hit die and the constitution modifier
+
+        #Starting Health
         con_mod = (self.assigned_list[2] - 10) // 2
-        start_health = int(base_hp + con_mod)
-        self.bio[6] = start_health
-        
+        self.bio[6] = int(base_hp + con_mod)
+
+    #Printing Within Interface
     def print_results(self):
-        bio = self.bio       
-        
-        #Print out results
+        bio = self.bio
         print("This is your character bio:")
         print()
         print()
@@ -149,20 +148,15 @@ class Stats:
         else:
             print("You have a unique set of weapon proficiencies")
         print()
-    
+
+    #Printing to File
     def print_results_to_file(self, name, directory):
-        
-        
         title = "\\%s.txt" %(name)
         filename = "\\Character Bios" + title
-        
         file_location = directory + filename
         outfile = open(file_location, 'w')
-        
         bio = self.bio
         here = outfile
-        
-        #Print out results
         print("Name:", bio[0], file=here)
         print("Age:", bio[4], file=here)
         if bio[2] == 'NA':
@@ -195,6 +189,4 @@ class Stats:
         else:
             print("You have a unique set of weapon proficiencies", file=here)
         print(file=here)
-        
         here.close()
-        

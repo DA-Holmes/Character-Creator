@@ -1,0 +1,17 @@
+Name: Random2
+Age: 174
+Race: Hill Dwarf
+Class: Fighter
+Starting Health: 13
+
+STR: 14
+DEX: 8
+CON: 14
+INT: 9
+WIS: 13
+CHA: 6
+
+Proficiencies
+Armor: All armor types
+Shield: Weapons: Any weapon
+

@@ -1,0 +1,18 @@
+Name: Big Joe
+Age: 36
+Race: Dragonborn
+Class: Warlock
+Starting Health: 11
+
+STR: 16
+DEX: 9
+CON: 16
+INT: 11
+WIS: 15
+CHA: 17
+
+Proficiencies
+Armor: Up to armor type Light
+Shield: No
+Weapons: Simple weapons
+
