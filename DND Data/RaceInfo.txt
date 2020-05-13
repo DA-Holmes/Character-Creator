@@ -1,0 +1,15 @@
+Race,Subrace,STR,DEX,CON,INT,WIS,CHA,Speed,Alignment,Life Expectancy,Subrace Bonus
+Dwarf,Hill,0,0,2,0,1,0,25,LG,350,WIS+1 HP+1
+Dwarf,Mountain,2,0,2,0,0,0,25,LG,350,STR+2
+Elf,High,0,2,0,1,0,0,30,CG,750,INT+1
+Elf,Wood,0,2,0,0,1,0,35,CG,750,WIS+1
+Elf,Dark,0,2,0,0,0,1,30,CE,750,CHA+1
+Halfling,Lightfoot,0,2,0,0,0,1,25,LG,150,CHA+1
+Halfling,Stout,0,2,1,0,0,0,25,LG,150,CON+1
+Human,NA,1,1,1,1,1,1,30,NA,95
+Dragonborn,NA,2,0,0,0,0,1,30,NA,80
+Gnome,Forest,0,1,0,2,0,0,25,*G,400,DEX+1
+Gnome,Rock,0,0,1,2,0,0,25,*G,400,CON+1
+Half-Elf,NA,*,*,*,*,*,2,30,CG,180
+Half-Orc,NA,2,0,1,0,0,0,30,CN,75
+Tiefling,NA,0,0,0,1,0,2,30,CN,120
