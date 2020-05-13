@@ -151,10 +151,8 @@ class Stats:
 
     #Printing to File
     def print_results_to_file(self, name, directory):
-
-        #Customizing File Name
-        title = "\\%s.txt" % name
-        filename = "\Character Bios" + title
+        title = "\\%s.txt" %(name)
+        filename = "\\Character Bios" + title
         file_location = directory + filename
         outfile = open(file_location, 'w')
         bio = self.bio
