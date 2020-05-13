@@ -1,0 +1,18 @@
+Name: Random
+Age: 196
+Race: Rock Gnome
+Class: Monk
+Starting Health: 10
+
+STR: 8
+DEX: 17
+CON: 14
+INT: 8
+WIS: 12
+CHA: 10
+
+Proficiencies
+Armor: No armor types
+Shield: No
+Weapons: Simple weapons
+

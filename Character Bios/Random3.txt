@@ -1,0 +1,17 @@
+Name: Random3
+Age: 51
+Race: Human
+Class: Paladin
+Starting Health: 12
+
+STR: 17
+DEX: 13
+CON: 15
+INT: 15
+WIS: 14
+CHA: 9
+
+Proficiencies
+Armor: All armor types
+Shield: Weapons: Any weapon
+
