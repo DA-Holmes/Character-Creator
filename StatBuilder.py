@@ -44,30 +44,26 @@ class Stats:
             remaining.append(max(copy_list))
             copy_list.remove(max(copy_list))
 
-        all_assigned = False
-        while all_assigned == False:
+        #Display Available Stats and Assign Next
+        for stat in self.ordered_list_variant:
             assign_response_valid = False
             while assign_response_valid == False:
-
-                #Display Available Stats and Assign Next
-                for stat in self.ordered_list_variant:
-                    print("Remaining values:")
-                    for i in remaining:
-                        print(i, '', end='')
-                    print()
-                    print("Which value would you like to assign to ", stat, "?", sep='')
-                    try:
-                        assign_value = int(input("Value:"))
-                        if assign_value in remaining:
-                            self.assigned_list.append(assign_value)
-                            remaining.remove(assign_value)
-                            assign_response_valid = True
-                        else:
-                            print("Value must be from remaining stats.")           ### Will this print out twice in some cases? ###
-                    except:
+                print("Remaining values:")
+                for i in remaining:
+                    print(i, '', end='')
+                print()
+                print("Which value would you like to assign to ", stat, "?", sep='')
+                try:
+                    assign_value = int(input("Value:"))
+                    if assign_value in remaining:
+                        self.assigned_list.append(assign_value)
+                        remaining.remove(assign_value)
+                        assign_response_valid = True
+                    else:
                         print("Value must be from remaining stats.")
-                    print()
-                all_assigned = True
+                except:
+                    print("Value must be from remaining stats.")
+                print()
 
     #Automated Stat Assignment
     def assign_stats_auto(self, main):
@@ -111,7 +107,7 @@ class Stats:
         con_mod = (self.assigned_list[2] - 10) // 2
         self.bio[6] = int(base_hp + con_mod)
 
-    #Printing Within Interface
+    #Printing to Interface
     def print_results(self):
         bio = self.bio
         print("This is your character bio:")
@@ -179,7 +175,7 @@ class Stats:
         if bio[8] == 'NA':
             print("No", file=here)
         else:
-            print(bio[8])
+            print(bio[8], file=here)
         print("Weapons: ", end='', file=here)
         if bio[9] == 'Martial':
             print("Any weapon", file=here)
@@ -187,5 +183,4 @@ class Stats:
             print("Simple weapons", file=here)
         else:
             print("You have a unique set of weapon proficiencies", file=here)
-        print(file=here)
         here.close()
