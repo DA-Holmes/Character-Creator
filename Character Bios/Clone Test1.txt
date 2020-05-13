@@ -1,0 +1,17 @@
+Name: Clone Test1
+Age: 53
+Race: Half-Elf
+Class: Druid
+Starting Health: 11
+
+STR: 11
+DEX: 12
+CON: 16
+INT: 12
+WIS: 16
+CHA: 15
+
+Proficiencies
+Armor: Up to armor type Medium (Nothing Metal)
+Shield: Weapons: You have a unique set of weapon proficiencies
+

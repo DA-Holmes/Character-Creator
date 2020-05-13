@@ -1,15 +1,15 @@
-Name: John Doe
-Age: 51
-Race: Human
+Name: Clone Test2
+Age: 22
+Race: Half-Elf
 Class: Sorcerer
-Starting Health: 9
+Starting Health: 8
 
-STR: 9
-DEX: 12
-CON: 16
+STR: 7
+DEX: 14
+CON: 15
 INT: 13
-WIS: 9
-CHA: 16
+WIS: 12
+CHA: 19
 
 Proficiencies
 Armor: No armor types

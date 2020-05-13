@@ -1,9 +1,0 @@
-Dwarf      [CON+2, Subrace] | Dwarves are solid and enduring like the mountains they love, weathering the years with stoic endurance and little change.
-Elf        [DEX+2, Subrace] | Elves are a magical people of otherworldly grace, living in the world but not entirely part of it.
-Halfling   [DEX+2, Subrace] | The comforts of home are the goals of most Halflings' lives; a place to settle in peace and quiet.
-Human      [All+1]          | Whatever drives them, Humans are the innovators, the achievers, and the pioneers of the world.
-Dragonborn [STR+2, CHA+1]   | An ancient race, Dragonborn have draconic blood inside of them and adhere loyally to the will of the clan.
-Gnome      [INT+2, Subrace] | Gnomes take delight in life, enjoying every moment of invention, exploration, investigation, creation, and play.
-Half-Elf   [CHA+2, 2x+1]    | Walking in two worlds, Half-Elves inherit the best qualities of humans and elves, but have trouble fitting in with either.
-Half-Orc   [STR+2, CON+1]   | Half-Orcs are not evil by nature, but evil does lurk within them, whether they embrace it or rebel against it.
-Tiefling   [INT+1, CHA+2]   | Stemming from an ancient pact with a devil, these humanoids have an innate aptitude for magic.

@@ -1,0 +1,17 @@
+Name: Lucky S.O.B.
+Age: 18
+Race: Human
+Class: Druid
+Starting Health: 12
+
+STR: 10
+DEX: 15
+CON: 18
+INT: 18
+WIS: 19
+CHA: 13
+
+Proficiencies
+Armor: Up to armor type Medium (Nothing Metal)
+Shield: Weapons: You have a unique set of weapon proficiencies
+

@@ -8,7 +8,7 @@ class Stats:
 
     #Default Stats, Stat Names, and Bonuses
     def __init__(self):
-        self.my_stats = [8,10,12,13,14,15]
+        self.my_stats = [15,14,13,12,10,8]
         self.ordered_list = ['STR','DEX','CON','INT','WIS','CHA']
         self.ordered_list_variant = ['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma']
         self.boost_list = [0,0,0,0,0,0]
@@ -38,35 +38,36 @@ class Stats:
 
     #Manual Stat Assignment
     def assign_stats(self):
+        copy_list = self.my_stats
+        remaining = []
+        for i in range(6):
+            remaining.append(max(copy_list))
+            copy_list.remove(max(copy_list))
+
         all_assigned = False
         while all_assigned == False:
+            assign_response_valid = False
+            while assign_response_valid == False:
 
-            #Display Available Stats
-            for stat in self.ordered_list_variant:
-                print("Remaining values:")
-                for i in self.my_stats:
-                    print(i, '', end='')
-                print()
-                print("Which value would you like to assign to ", stat, "?", sep='')
-
-                #Retrieve
-                assign_response_valid = False
-                while assign_response_valid == False:
+                #Display Available Stats and Assign Next
+                for stat in self.ordered_list_variant:
+                    print("Remaining values:")
+                    for i in remaining:
+                        print(i, '', end='')
+                    print()
+                    print("Which value would you like to assign to ", stat, "?", sep='')
                     try:
                         assign_value = int(input("Value:"))
-                        if assign_value in self.my_stats:
+                        if assign_value in remaining:
                             self.assigned_list.append(assign_value)
-                            self.my_stats.remove(assign_value)
+                            remaining.remove(assign_value)
                             assign_response_valid = True
                         else:
-                            print("Value must be from remaining stats.")
-
-### Will this print out twice in some cases? ###
-
+                            print("Value must be from remaining stats.")           ### Will this print out twice in some cases? ###
                     except:
                         print("Value must be from remaining stats.")
-                print()
-            all_assigned = True
+                    print()
+                all_assigned = True
 
     #Automated Stat Assignment
     def assign_stats_auto(self, main):
@@ -151,9 +152,7 @@ class Stats:
 
     #Printing to File
     def print_results_to_file(self, name, directory):
-        title = "\\%s.txt" %(name)
-        filename = "\\Character Bios" + title
-        file_location = directory + filename
+        file_location = directory + "\\Character Bios\\%s.txt" %(name)
         outfile = open(file_location, 'w')
         bio = self.bio
         here = outfile
