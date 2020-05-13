@@ -7,23 +7,10 @@ Coauthor: Bryce Valley
 
 
 Current Goals:
-1. Fix urgent bugs/errors
-2. GUI, improve interface
-3. Fix line spacing
-5. Clean up comments in main file
-    >for examples, see StatBuilder comments
-6. Make boolean accept 'y' and 'n'
-7. Stop random 'yes' after file write question
-    >it is printing the string for shield b/c when class is druid it prints 'yes (nothing metal)'
-
+1. GUI, improve interface
 
 
 Urgent Bugs:
--error after trying to use "/" in character name; use a try-except block to override possible input error
-    >is this error possible elsewhere?
-    >didn't change anything, but can't get error message anymore
--overwriting shield with weapons when printing to file
-
 
 Things to work on:
 
@@ -32,17 +19,15 @@ Things to work on:
 *clean up code for readability
     -if needed, make functions
         >function to make lists based on a few parameters?
-? Maybe update boolean so it takes arguements for the different possible answers (default set to yes/no)?
 *half-elf (manual) - clean up stat customization option
-    >Maybe create a function for both manual and auto
-*fix weird line spacing
-*boolean not accepting 'n' or 'y'
+    >Maybe create a function for both manual and auto in StatBuilder
 *stat manual assignment - reiterate values and current stat after invalid response
 *still printing out 'yes' after write to file question
 *create function to clear out character bios folder
     >Make user triple check their answer
 *reads and assigns additional race and class info for both manual and auto; very bulky
-    >asjusting this may cause a need to readjust the auto results as well
+    >asjusting this may cause a need to readjust the auto result printing as well
+*allow manual entry the rename option
 
 [Content]
 *expand random name bank to include names from different races
@@ -76,16 +61,15 @@ def boolean(prompt):
     boolean_answered = False
     while boolean_answered == False:
         response = input(prompt)
-        if response.lower() == ('yes' or 'y'):
+        if response.lower() == 'yes' or response.lower() == 'y':
             answer = True
             boolean_answered = True
-        elif response.lower() == ('no' or 'n'):
+        elif response.lower() == 'no' or response.lower() == 'n':
             answer = False
             boolean_answered = True
         else:
             print()
             print("Please answer Yes or No.")
-
     return answer
 
 def main():
@@ -128,14 +112,13 @@ def main():
         stripped_line = line.strip()
         class_descriptions_list.append(stripped_line)
 
-    add_info = Information()
-
-    '''''''''''''''''''''''''''''''''
-    Begin constructing your character
-    '''''''''''''''''''''''''''''''''
+    '''''''''''''''
+    Begin Program
+    '''''''''''''''
     #Restart Option
     restart = True
     while restart == True:
+        add_info = Information()
         for i in range(10):
             print()
         print("Welcome to The D&D Character Creation Program!")
@@ -148,19 +131,17 @@ def main():
             tutorial = False
         print()
 
-        #Tutorial Occasionally Offers Information
+        #Tutorial for More Information
         if tutorial == True:
             add_info.general()
             print()
 
-        #Randomization Station
+        '''''''''''''''''
+        Automatic Generator
+        '''''''''''''''''
         if boolean("Use automatic generator? ") == True:
-            print()
-
-            '''''''''''''''''
-            Automatic Generator
-            '''''''''''''''''
             auto_stats = Stats()
+            print()
 
             #Race & Subrace
             auto_race = race_list[random.randint(0,len(race_list)-1)]
@@ -312,13 +293,9 @@ def main():
             '''''''''''''''
             Manual Builder
             '''''''''''''''
-            stat_values = Stats()
-
-            '''''''''''''''''
-            Choose Your Race
-            '''''''''''''''''
-            #Redo Race Option
+            #Choose Your Race
             print()
+            stat_values = Stats()
             repeat_race = True
             while repeat_race == True:
                 print("We are going to start by choosing a race from the D&D Player's Handbook.")
@@ -329,7 +306,7 @@ def main():
                         print(entry)
                     print()
 
-                #Choosing Race
+                #Race Options
                 race_chosen = False
                 while race_chosen == False:
                     print("Choose a race from the following list:")
@@ -389,10 +366,7 @@ def main():
                     repeat_race = False
                 print()
 
-            '''''''''''''''''
-            Choose Your Class
-            '''''''''''''''''
-            #Redo Class Option
+            #Choose Your Class
             repeat_class = True
             while repeat_class == True:
                 print("Next, you will choose a class for your character.")
@@ -403,7 +377,7 @@ def main():
                         print(entry)
                 print()
 
-                #Choosing Class
+                #Class Options
                 class_chosen = False
                 while class_chosen == False:
                     print("Choose a class from the following list:")
@@ -430,13 +404,18 @@ def main():
                     repeat_class = False
                 print()
 
-            #Other Race and Class Data
+            #Data From Race & Class
             race_index = 0
             for index in range(len(race_data_list)):
                 if race_data_list[index][0] == my_race and race_data_list[index][1] == my_subrace:
                     race_index = index
             rec_age = int(race_data_list[race_index][10])
             speed = race_data_list[race_index][8]
+            main_stat = class_data_list[class_index+1][1]
+            armor = class_data_list[class_index+1][5]
+            shield = class_data_list[class_index+1][6]
+            weapons = class_data_list[class_index+1][7]
+            base_hp = int(class_data_list[class_index+1][2])
 
             #Race Bonuses (Half-Elf Special)
             if my_race != 'Half-Elf':
@@ -446,22 +425,14 @@ def main():
             else:
                 stat_values.boost_list[5] = 2
 
-            main_stat = class_data_list[class_index+1][1]
-            armor = class_data_list[class_index+1][5]
-            shield = class_data_list[class_index+1][6]
-            weapons = class_data_list[class_index+1][7]
-            base_hp = int(class_data_list[class_index+1][2])
-
             #Hill Dwarf Extra Health
             if race_index == 1:
                 base_hp +=1
 
-
-            '''''''''''''''''''''
-            Setting Up Your Stats
-            '''''''''''''''''''''
+            #Setting Stats
             print("Now we are going to determine your character stats for Strength (STR), Dexterity (DEX),")
             print("Constitution (CON), Intelligence (INT), Wisdom (WIS), and Charisma (CHA).")
+            print()
             if tutorial == True:
                 add_info.stats()
             print()
@@ -488,7 +459,7 @@ def main():
             print()
             stat_values.assign_stats()
 
-            #Half-Elf Special Options
+            #Half-Elf Customization
             if my_race == 'Half-Elf':
                 print("Because you are a Half-Elf, you may add 1 to two different stats besides CHA.")
 
@@ -502,8 +473,9 @@ def main():
                             if first != 'cha':
                                 stat_values.boost_list[i] += 1
                                 extra1_good = True
+                                first_index = i
                             else:
-                                print("Charisma already has a bonus")
+                                print("CHA already has a bonus.")
                     if extra1_good == False:
                         print("Please enter a valid stat (e.g. 'STR').")
                     print()
@@ -516,22 +488,20 @@ def main():
                             if second != 'cha' and second != first:
                                 stat_values.boost_list[i] += 1
                                 extra2_good = True
-                            else:
-                                print("Has to be a different stat.")
+                            elif second == first:
+                                print(stat_values.ordered_list[first_index], "already has a bonus.")
+                            elif second == 'cha':
+                                print("CHA already has a bonus.")
                     if extra2_good == False:
                         print("Please enter a valid stat (e.g. 'STR').")
                     print()
             for i in range(6):
                 stat_values.assigned_list[i] += stat_values.boost_list[i]
 
-            '''''''''''''''''''''''''''
-            Choose Your Age and Name
-            '''''''''''''''''''''''''''
+            #Choose Age
             print("Looks good! Now all you need is to set your age and choose a name!")
             print("The average lifespan of a", my_race, "is", rec_age, "years.")
             print()
-
-            #Get Reasonable Age
             age_chosen = False
             while age_chosen == False:
                 try:
@@ -546,25 +516,21 @@ def main():
                 except:
                     print("Please enter a whole number.")
                 print()
+
+            #Choose Character Name
             name = input("What is the name of your character? ")
             print()
 
-            '''''''''''
-            The Results
-            '''''''''''
+            #Print Results
             stat_values.results_data(name, my_race, my_subrace, speed, age, my_class, base_hp, armor, shield, weapons)
             stat_values.print_results()
             final = stat_values
-#Is this ^^^ making it print weird?
-        '''''''''
-        The End
-        '''''''''
+
+        #Create New File for Bio
         if boolean("Would you like to write this bio into a file? ") != False:
-
-#For some reason pringtng out "Yes" is user answers yes here, but nowhere else
-
             final.print_results_to_file(name, direct)
 
+        #End of Program
         print()
         if boolean("Thank you for using the Character Creation Program! Would you like to start over? ") == False:
             restart = False

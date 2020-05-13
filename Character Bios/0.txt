@@ -1,0 +1,17 @@
+Name: 0
+Age: 19
+Race: Human
+Class: Bard
+Starting Health: 10
+
+STR: 7
+DEX: 16
+CON: 15
+INT: 13
+WIS: 12
+CHA: 16
+
+Proficiencies
+Armor: Up to armor type Light
+Shield: No
+Weapons: Simple weapons
