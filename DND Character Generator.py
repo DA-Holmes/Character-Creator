@@ -8,6 +8,7 @@ Coauthor: Bryce Valley
 
 Current Goals:
 1. GUI, improve interface
+2. Make Half-Elf customization function in StatBuilder (manual and automatic)
 
 
 Urgent Bugs:
@@ -28,6 +29,8 @@ Things to work on:
 *reads and assigns additional race and class info for both manual and auto; very bulky
     >asjusting this may cause a need to readjust the auto result printing as well
 *allow manual entry the rename option
+*move results functions to a new class and try to simplify the printing
+
 
 [Content]
 *expand random name bank to include names from different races
@@ -461,6 +464,10 @@ def main():
 
             #Half-Elf Customization
             if my_race == 'Half-Elf':
+                #Perform function for this
+
+
+
                 print("Because you are a Half-Elf, you may add 1 to two different stats besides CHA.")
 
                 #Choose Stats to Boost
@@ -495,6 +502,7 @@ def main():
                     if extra2_good == False:
                         print("Please enter a valid stat (e.g. 'STR').")
                     print()
+            #Add Stat Bonuses
             for i in range(6):
                 stat_values.assigned_list[i] += stat_values.boost_list[i]
 
