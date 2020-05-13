@@ -1,0 +1,18 @@
+Name: John Doe
+Age: 51
+Race: Human
+Class: Sorcerer
+Starting Health: 9
+
+STR: 9
+DEX: 12
+CON: 16
+INT: 13
+WIS: 9
+CHA: 16
+
+Proficiencies
+Armor: No armor types
+Shield: No
+Weapons: You have a unique set of weapon proficiencies
+
