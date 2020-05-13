@@ -153,8 +153,8 @@ class Stats:
     def print_results_to_file(self, name, directory):
         
         
-        title = "\This Character Bio.txt"
-        filename = "\Character Bios" + title
+        title = "\\%s.txt" %(name)
+        filename = "\\Character Bios" + title
         
         file_location = directory + filename
         outfile = open(file_location, 'w')
