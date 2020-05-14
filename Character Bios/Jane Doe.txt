@@ -1,0 +1,17 @@
+Name: Jane Doe
+Age: 88
+Race: Half-Elf
+Class: Paladin
+Starting Health: 12
+
+STR: 16
+DEX: 14
+CON: 14
+INT: 14
+WIS: 11
+CHA: 15
+
+Proficiencies
+Armor: All armor types
+Shield: Yes
+Weapons: Any weapon

@@ -1,4 +1,4 @@
-Barbarian | Uses brute force with the heart of a warrior
+Barbarian | Uses brute force and has the heart of a warrior
 Bard      | Through performance, they cast spells and aid allies
 Cleric    | They pledge their service to a deity to achieve enlightenment
 Druid     | Tap into the life force of nature and be one with the forest

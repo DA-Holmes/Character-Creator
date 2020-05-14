@@ -8,10 +8,15 @@ Coauthor: Bryce Valley
 
 Current Goals:
 1. GUI, improve interface
-2. Make Half-Elf customization function in StatBuilder (manual and automatic)
 
 
-Urgent Bugs:
+
+Create function for:
+*making lists from Files
+    -data_lists
+    -race/class Lists
+    -descriptions lists
+
 
 Things to work on:
 
@@ -26,11 +31,12 @@ Things to work on:
 *still printing out 'yes' after write to file question
 *create function to clear out character bios folder
     >Make user triple check their answer
-*reads and assigns additional race and class info for both manual and auto; very bulky
+*reads and assigns additional race/class info for both manual and auto; right now it's just the same code copied in a different spot
     >asjusting this may cause a need to readjust the auto result printing as well
 *allow manual entry the rename option
 *move results functions to a new class and try to simplify the printing
-
+*print stat allocation after assignments (manual)
+    >for both, offer re-allocation
 
 [Content]
 *expand random name bank to include names from different races
@@ -185,10 +191,10 @@ def main():
 
             #Assigning Class Data
             main_stat = class_data_list[class_index+1][1]
-            main_stat_index = -1
+            main_index = ''
             for i in range(6):
                 if main_stat == auto_stats.ordered_list[i]:
-                    main_stat_index = i
+                    main_index = i
             armor = class_data_list[class_index+1][5]
             shield = class_data_list[class_index+1][6]
             weapons = class_data_list[class_index+1][7]
@@ -214,63 +220,7 @@ def main():
 
             #Half-Elf Optimization
             if auto_race == "Half-Elf":
-                remaining_bonus = 2
-                copy_list = auto_stats.assigned_list
-
-                while remaining_bonus > 0:
-                    main = False
-                    con = False
-
-                    #Prioritize Main Stat
-                    if (auto_stats.assigned_list[main_stat_index] % 2) == 1 and main_stat != 'CHA':
-                        auto_stats.assigned_list[main_stat_index] += 1
-                        main = True
-                        remaining_bonus -= 1
-
-                    #Next is CON
-                    if (auto_stats.assigned_list[2] % 2) == 1:
-                        auto_stats.assigned_list[2] += 1
-                        con = True
-                        remaining_bonus -= 1
-
-                    #Remaining
-                    if remaining_bonus > 0:
-
-                        #Start by topping off odds
-
-#Make it choose which odd at random#
-
-                        odd_list = []
-                        odd_stat_index = -1
-                        for i in range(5):
-                            if auto_stats.assigned_list[i] % 2 == 1:
-                                odd_list.append(auto_stats.assigned_list[i])
-                        if len(odd_list) > 0:
-                            odd_stat = max(odd_list)
-                            odd_stat_index = copy_list.index(odd_stat)
-                            auto_stats.assigned_list[odd_stat_index] += 1
-                            remaining_bonus -= 1
-                        else:
-
-                            #Double-Check Main Stat
-                            if main == False:
-                                auto_stats.assigned_list[main_stat_index] += 1
-                                main = True
-                                remaining_bonus -= 1
-                            else:
-
-#Make it choose which even at random#
-
-                                #Boost Evens Last
-                                even_list = []
-                                for i in range(5):
-                                    if i != (2 or 5 or odd_stat_index):
-                                        even_list.append(auto_stats.assigned_list[i])
-                                even_stat = max(even_list)
-                                even_stat_index = copy_list.index(even_stat)
-                                auto_stats.assigned_list[even_stat_index] += 1
-                                print("Adding to evens:", auto_stats.assigned_list)
-                                remaining_bonus -= 1
+                auto_stats.half_elf_auto(main_index)
 
             #Print Automated Results
             auto_stats.results_data(name, auto_race, auto_subrace, speed, age, auto_class, base_hp, armor, shield, weapons)
@@ -464,47 +414,7 @@ def main():
 
             #Half-Elf Customization
             if my_race == 'Half-Elf':
-                #Perform function for this
-
-
-
-                print("Because you are a Half-Elf, you may add 1 to two different stats besides CHA.")
-
-                #Choose Stats to Boost
-                extra1_good = False
-                while extra1_good == False:
-                    extra1 = input("First stat to boost: ")
-                    first = extra1.lower()
-                    for i in range(len(stat_values.ordered_list)):
-                        if  first == stat_values.ordered_list[i].lower():
-                            if first != 'cha':
-                                stat_values.boost_list[i] += 1
-                                extra1_good = True
-                                first_index = i
-                            else:
-                                print("CHA already has a bonus.")
-                    if extra1_good == False:
-                        print("Please enter a valid stat (e.g. 'STR').")
-                    print()
-                extra2_good = False
-                while extra2_good == False:
-                    extra2 = input("Second stat to boost: ")
-                    second = extra2.lower()
-                    for i in range(len(stat_values.ordered_list)):
-                        if  second == stat_values.ordered_list[i].lower():
-                            if second != 'cha' and second != first:
-                                stat_values.boost_list[i] += 1
-                                extra2_good = True
-                            elif second == first:
-                                print(stat_values.ordered_list[first_index], "already has a bonus.")
-                            elif second == 'cha':
-                                print("CHA already has a bonus.")
-                    if extra2_good == False:
-                        print("Please enter a valid stat (e.g. 'STR').")
-                    print()
-            #Add Stat Bonuses
-            for i in range(6):
-                stat_values.assigned_list[i] += stat_values.boost_list[i]
+                stat_values.half_elf_manual()
 
             #Choose Age
             print("Looks good! Now all you need is to set your age and choose a name!")

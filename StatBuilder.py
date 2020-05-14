@@ -99,6 +99,108 @@ class Stats:
             remaining_indeces_list.remove(index)
             remaining -= 1
 
+
+
+    #Manual Half-Elf Bonuses
+    def half_elf_manual(self):
+        print("Because you are a Half-Elf, you may add 1 to two different stats besides CHA.")
+
+        #Choose Stats to Boost
+        extra1_good = False
+        while extra1_good == False:
+            extra1 = input("First stat to boost: ")
+            first = extra1.lower()
+            for i in range(len(self.ordered_list)):
+                if  first == self.ordered_list[i].lower():
+                    if first != 'cha':
+                        self.boost_list[i] += 1
+                        extra1_good = True
+                        first_index = i
+                    else:
+                        print("CHA already has a bonus.")
+            if extra1_good == False:
+                print("Please enter a valid stat (e.g. 'STR').")
+            print()
+
+        #Second Stat Must be Different
+        extra2_good = False
+        while extra2_good == False:
+            extra2 = input("Second stat to boost: ")
+            second = extra2.lower()
+            for i in range(len(self.ordered_list)):
+                if  second == self.ordered_list[i].lower():
+                    if second != 'cha' and second != first:
+                        self.boost_list[i] += 1
+                        extra2_good = True
+                    elif second == first:
+                        print(self.ordered_list[first_index], "already has a bonus.")
+                    elif second == 'cha':
+                        print("CHA already has a bonus.")
+            if extra2_good == False:
+                print("Please enter a valid stat (e.g. 'STR').")
+            print()
+
+    #Automatic Half-Elf Bonuses
+    def half_elf_auto(self, main_index):
+        m = main_index
+        remaining_bonus = 2
+        copy_list = self.assigned_list
+        while remaining_bonus > 0:
+            main = False
+            con = False
+
+            #Prioritize Main Stat
+            if (self.assigned_list[m] % 2) == 1 and self.ordered_list[m] != 'CHA':
+                self.assigned_list[m] += 1
+                main = True
+                remaining_bonus -= 1
+
+            #Next is CON
+            if (self.assigned_list[2] % 2) == 1:
+                self.assigned_list[2] += 1
+                con = True
+                remaining_bonus -= 1
+
+            #Remaining
+            if remaining_bonus > 0:
+
+                #Start by topping off odds
+
+    #Make it choose which odd at random#
+
+                odd_list = []
+                odd_stat_index = -1
+                for i in range(5):
+                    if self.assigned_list[i] % 2 == 1:
+                        odd_list.append(self.assigned_list[i])
+                if len(odd_list) > 0:
+                    odd_stat = max(odd_list)
+                    odd_stat_index = copy_list.index(odd_stat)
+                    self.assigned_list[odd_stat_index] += 1
+                    remaining_bonus -= 1
+                else:
+
+                    #Double-Check Main Stat
+                    if main == False:
+                        self.assigned_list[m] += 1
+                        main = True
+                        remaining_bonus -= 1
+                    else:
+
+    #Make it choose which even at random#
+
+                        #Boost Evens Last
+                        even_list = []
+                        for i in range(5):
+                            if i != (2 or 5 or odd_stat_index):
+                                even_list.append(self.assigned_list[i])
+                        even_stat = max(even_list)
+                        even_stat_index = copy_list.index(even_stat)
+                        self.assigned_list[even_stat_index] += 1
+                        print("Adding to evens:", self.assigned_list)
+                        remaining_bonus -= 1
+
+
     #Gather Relevant Character Data
     def results_data(self, name, race, subrace, speed, age, ch_class, base_hp, armor, shield, weapons):
         self.bio = [name,race,subrace,speed,age,ch_class,base_hp,armor,shield,weapons]
