@@ -1,15 +1,15 @@
-Name: 0
-Age: 19
-Race: Human
-Class: Bard
+Name: John Doe
+Age: 36
+Race: Tiefling
+Class: Rogue
 Starting Health: 10
 
-STR: 7
-DEX: 16
-CON: 15
-INT: 13
-WIS: 12
-CHA: 16
+STR: 13
+DEX: 15
+CON: 14
+INT: 7
+WIS: 10
+CHA: 10
 
 Proficiencies
 Armor: Up to armor type Light

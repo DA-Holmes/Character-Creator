@@ -1,5 +1,5 @@
 '''
-This class includes the optional additional information to be printed to keep the main file organized
+This class includes additional information, should the user request assistance with the program
 '''
 
 class Information:
