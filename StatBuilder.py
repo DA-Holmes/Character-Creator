@@ -110,8 +110,10 @@ class Stats:
         self.bio[6] = int(base_hp + con_mod)
 
     # Printing to Interface
-    def print_results(self):
+    def print_results(self, stringVar, statBlock):
         bio = self.bio
+        finalString = "This is your character bio:\n\nName:\t\t%s \nAge:\t\t%d \n" % (bio[0], bio[4])
+        statString = "STATS:\n\n"
         print("This is your character bio:")
         print()
         print()
@@ -119,13 +121,18 @@ class Stats:
         print("Age:", bio[4])
         if bio[2] == 'NA':
             print("Race:", bio[1])
+            finalString += "Race:\t\t%s \n" % bio[1]
         else:
             print("Race:", bio[2], bio[1])
+            finalString += "Race:\t\t%s %s \n" % (bio[2], bio[1])
         print("Class:", bio[5])
+        finalString += "Class:\t\t%s \n" % bio[5]
         print("Starting Health:", bio[6])
+        finalString += "Starting Health:\t%d \n\n" % bio[6]
         print()
         for i in range(6):
             print(self.ordered_list[i], ": ", self.assigned_list[i], sep='')
+            statString += "%s:\t%d\n" % (self.ordered_list[i], self.assigned_list[i])
         print()
         print("Proficiencies")
         if bio[7] == 'All':
@@ -147,6 +154,8 @@ class Stats:
         else:
             print("You have a unique set of weapon proficiencies")
         print()
+        stringVar.set(finalString)
+        statBlock.set(statString)
 
     # Printing to File
     def print_results_to_file(self, name, directory):

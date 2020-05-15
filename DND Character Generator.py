@@ -89,7 +89,6 @@ def yesResponse():
     checkResponse = True
     window.quit()
 
-
 def noResponse():
     global checkResponse
     checkResponse = False
@@ -141,6 +140,8 @@ def main():
     '''''''''''''''
     # accessing a global variable
     global checkResponse
+    dialogColor = "#d4c7b2"
+    fontsize = 16
 
     # Creating window for GUI
     window.title("DnD Character Creator")
@@ -155,10 +156,9 @@ def main():
 
     currentDialog = tk.StringVar()
     mainDialog = tk.Message(master = mainframe, textvariable = currentDialog,
-        anchor = "center", width = 800, font = ("times", 26), bg = "#d4c7b2",
-        justify = "center")
-    mainDialog.grid(column = 1, row = 1, columnspan = 14, rowspan = 10, sticky = "nsew",
-        )
+        anchor = "center", width = 800, font = ("times", fontsize), bg = dialogColor,
+        justify = "left")
+    mainDialog.grid(column = 0, row = 0, columnspan = 16, rowspan = 11, sticky = "nsew", padx = 10, pady = 10)
 
     noBut = tk.Button(master = mainframe, text = "NO", font = ("courier new", 16, "bold"), command = noResponse)
     noBut.grid(column = 2, row = 13, columnspan = 2, sticky = "nsew")
@@ -173,17 +173,19 @@ def main():
         add_info = Information()
         checkResponse = None
         window.mainloop()
-        print(checkResponse)
 
         # Tutorial for More Information
+        tutorial = False
         if checkResponse:
             add_info.general(currentDialog)
-            print()
+            tutorial = True
 
         '''''''''''''''''
         Automatic Generator
         '''''''''''''''''
-        if boolean("Use automatic generator? ") == True:
+        currentDialog.set(currentDialog.get() + "\n\nUse automatic generator?")
+        window.mainloop()
+        if checkResponse:
             auto_stats = Stats()
             print()
 
@@ -246,8 +248,10 @@ def main():
             name = random.choice(name_list)
 
             # Auto Stats
-            print("(Your primary stat is ", main_stat,
-                  " and your rolled stats are: ", auto_stats.my_stats, ")", sep='')
+            print("Your primary stat is ", main_stat,
+                  " and your rolled stats are: ", auto_stats.my_stats, "", sep='')
+            currentDialog.set("Your primary stat is " + str(main_stat) +
+                  " and your rolled stats are: \n" + str(auto_stats.my_stats))
             auto_stats.assign_stats_auto(main_stat)
             print()
 
@@ -270,7 +274,7 @@ def main():
                         main = True
                         remaining_bonus -= 1
 
-                    #Next is CON
+                    # Next is CON
                     if (auto_stats.assigned_list[2] % 2) == 1:
                         auto_stats.assigned_list[2] += 1
                         con = True
@@ -280,9 +284,7 @@ def main():
                     if remaining_bonus > 0:
 
                         # Start by topping off odds
-
-                        #Make it choose which odd at random#
-
+                        # Make it choose which odd at random
                         odd_list = []
                         odd_stat_index = -1
                         for i in range(5):
@@ -302,8 +304,7 @@ def main():
                                 remaining_bonus -= 1
                             else:
 
-                                #Make it choose which even at random#
-
+                                #Make it choose which even at random
                                 # Boost Evens Last
                                 even_list = []
                                 for i in range(5):
@@ -320,18 +321,30 @@ def main():
             # Print Automated Results
             auto_stats.results_data(name, auto_race, auto_subrace,
                                     speed, age, auto_class, base_hp, armor, shield, weapons)
-            auto_stats.print_results()
+            statShowcase = tk.StringVar()
+            mainDialog.grid(column = 0, row = 0, columnspan = 12, rowspan = 11, sticky = "nsew", padx = 10, pady = 10)
+            statDialog = tk.Message(master = mainframe, textvariable = statShowcase,
+                anchor = "center", width = 200, font = ("times", fontsize), bg = "#d4c7b2",
+                justify = "left")
+            statDialog.grid(column = 12, row = 0, columnspan = 4, rowspan = 11, sticky = "nsew", padx = (0, 10), pady = 10)
+            auto_stats.print_results(currentDialog, statShowcase)
 
             # Allow Name Change
             name_change = True
             while name_change == True:
-                if boolean("Would you like to change your character name? ") == True:
-                    print()
-                    name = input("What is the name of your character? ")
-                    print()
+                currentDialog.set(currentDialog.get() + "Would you like to change your character's name?")
+                window.mainloop()
+                if checkResponse:
+                    currentDialog.set("Enter the new name of your character below.\nPress yes once done.")
+                    
+                    nameEntry = tk.Entry(master = mainframe)
+                    nameEntry.grid(column = 7, row = 13, columnspan=2, sticky = "nsew")
+                    window.mainloop()
+
                     auto_stats.results_data(
-                        name, auto_race, auto_subrace, speed, age, auto_class, base_hp, armor, shield, weapons)
-                    auto_stats.print_results()
+                        nameEntry.get(), auto_race, auto_subrace, speed, age, auto_class, base_hp, armor, shield, weapons)
+                    auto_stats.print_results(currentDialog, statShowcase)
+                    nameEntry.grid_remove()
                 else:
                     name_change = False
                 print()
@@ -348,17 +361,24 @@ def main():
             while repeat_race == True:
                 print(
                     "We are going to start by choosing a race from the D&D Player's Handbook.")
+                currentDialog.set("We are going to start by choosing" + 
+                    " a race from the D&D Player's Handbook.")
                 if tutorial == True:
-                    add_info.race()
+                    add_info.race(currentDialog)
                     print()
                     for entry in race_descriptions_list:
                         print(entry)
+                        currentDialog.set(currentDialog.get() + entry + "\n\n")
                     print()
 
                 # Race Options
                 race_chosen = False
                 while race_chosen == False:
-                    print("Choose a race from the following list:")
+                    print("Choose a race from the list:")
+                    currentDialog.set(currentDialog.get() + "Choose a race from the list:")
+
+
+
                     for i in range(len(race_list)):
                         if i < len(race_list) - 1:
                             print(race_list[i], ', ', sep='', end='')
