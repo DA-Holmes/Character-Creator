@@ -336,7 +336,7 @@ def main():
                 window.mainloop()
                 if checkResponse:
                     currentDialog.set("Enter the new name of your character below.\nPress yes once done.")
-                    
+
                     nameEntry = tk.Entry(master = mainframe)
                     nameEntry.grid(column = 7, row = 13, columnspan=2, sticky = "nsew")
                     window.mainloop()
@@ -359,40 +359,33 @@ def main():
             stat_values = Stats()
             repeat_race = True
             while repeat_race == True:
-                print(
-                    "We are going to start by choosing a race from the D&D Player's Handbook.")
                 currentDialog.set("We are going to start by choosing" + 
-                    " a race from the D&D Player's Handbook.")
+                    " a race from the D&D Player's Handbook.\n")
                 if tutorial == True:
                     add_info.race(currentDialog)
-                    print()
                     for entry in race_descriptions_list:
                         print(entry)
                         currentDialog.set(currentDialog.get() + entry + "\n\n")
-                    print()
+
 
                 # Race Options
                 race_chosen = False
                 while race_chosen == False:
                     print("Choose a race from the list:")
-                    currentDialog.set(currentDialog.get() + "Choose a race from the list:")
-
-
+                    currentDialog.set(currentDialog.get() + "Choose a race from the list and press yes when done:")
+                    selectBox = tk.Listbox(master = mainframe, height = len(race_list), selectbackground = dialogColor,
+                        selectmode = "SINGLE", font = ("times", fontsize-2))
 
                     for i in range(len(race_list)):
-                        if i < len(race_list) - 1:
-                            print(race_list[i], ', ', sep='', end='')
-                        else:
-                            print(race_list[i])
-                    print()
-                    my_race = input("My race: ")
-                    for race in race_list:
-                        if my_race.lower() == race.lower():
-                            my_race = race
-                            race_chosen = True
-                    if race_chosen == False:
-                        print("Try again.")
-                        print()
+                        selectBox.insert(i, race_list[i])
+
+                    selectBox.grid(column = 7, row = 12, columnspan=2, rowspan = 3, sticky = "nsew")
+
+                    window.mainloop()
+                    if len(selectBox.curselection()) == 1:
+                        my_race = race_list[selectBox.curselection()[0]]
+                        race_chosen = True
+
 
                 # Subrace Options
                 subrace = False
@@ -409,71 +402,65 @@ def main():
 
                 # Choose Subrace
                 if subrace == True:
-                    print()
-                    print("The race you chose has additional subrace options!")
+                    currentDialog.set("The race you chose has additional subrace options!\n" +
+                        "Please choose one of the following:\n\n")
+                    selectBox.delete(0, selectBox.size())
+                    for i in range(len(subrace_options)):
+                        currentDialog.set(currentDialog.get() + "%s:\t\t%s\n" % (subrace_options[i], subrace_bonuses[i]))
+                        selectBox.insert(i, subrace_options[i])
                     subrace_chosen = False
                     while subrace_chosen == False:
-                        print("Please choose one of the following:")
-                        for i in range(len(subrace_options)):
-                            print(subrace_options[i], ": ",
-                                  subrace_bonuses[i], sep='')
-                        print()
-                        my_subrace = input("My subrace: ")
-                        for subrace in subrace_options:
-                            if my_subrace[:4].lower() == subrace[:4].lower():
-                                my_subrace = subrace
-                                subrace_chosen = True
-                        if subrace_chosen == False:
-                            print("Try again.")
-                            print()
+                        window.mainloop()
+                        if len(selectBox.curselection()) == 1:
+                            my_subrace = selectBox.get([selectBox.curselection()[0]])
+                            subrace_chosen = True
 
                 # Display Decision
-                    print("You have chosen to be a ",
-                          my_subrace, " ", my_race, "!", sep='')
+                    currentDialog.set("You have to chosen to be a %s %s!\n\nWould you like to choose a different race?" % (my_subrace, my_race))
                 elif subrace == False:
-                    print("You have chosen to be a ", my_race, "!", sep='')
-                print()
-                if boolean("Would you like to choose a different race? ") == False:
+                    currentDialog.set("You have to chosen to be a %s!\n\nWould you like to choose a different race?" % (my_race))
+                
+                window.mainloop()
+                if not checkResponse:
                     repeat_race = False
-                print()
 
             # Choose Your Class
             repeat_class = True
             while repeat_class == True:
-                print("Next, you will choose a class for your character.")
+                selectBox.delete(0, selectBox.size())
+                currentDialog.set("Next, you will choose a class for your character:\n\n")
+                print("")
                 if tutorial == True:
-                    add_info.dnd_class()
+                    add_info.dnd_class(currentDialog)
                     print()
                     for entry in class_descriptions_list:
                         print(entry)
-                print()
+                        currentDialog.set(currentDialog.get() + entry + "\n\n")
+                else:
+                    # print("Choose a class from the following list:")
+                    for i in range(1, len(class_data_list)):
+                        if i < len(class_data_list) - 1:
+                            currentDialog.set(currentDialog.get() + class_data_list[i][0] + ", ")
+                        else:
+                            currentDialog.set(currentDialog.get() + class_data_list[i][0])
+                        selectBox.insert(i-1, class_data_list[i][0])
 
                 # Class Options
                 class_chosen = False
                 while class_chosen == False:
-                    print("Choose a class from the following list:")
-                    for i in range(1, len(class_data_list)):
-                        if i < len(class_data_list) - 1:
-                            print(class_data_list[i][0], ', ', sep='', end='')
-                        else:
-                            print(class_data_list[i][0])
-                    print()
-                    my_class = input("My class: ")
-                    for entry in class_list:
-                        if my_class.lower() == entry.lower():
-                            my_class = entry
-                            class_index = class_list.index(entry)
-                            class_chosen = True
-                    if class_chosen == False:
-                        print("Try again.")
-                        print()
 
-                # Display Decision
-                print("You have chosen to be a ", my_class, "!", sep='')
-                print()
-                if boolean("Would you like to choose a different class? ") == False:
+
+                    window.mainloop()
+                    if len(selectBox.curselection()) == 1:
+                        my_class = selectBox.get([selectBox.curselection()[0]])
+                        class_index = selectBox.curselection()[0]
+                        class_chosen = True
+
+                currentDialog.set("You have chosen to be a %s!\nWould you like to choose a different class?" % (my_class))
+                window.mainloop()
+                if not checkResponse:
                     repeat_class = False
-                print()
+            selectBox.grid_remove()
 
             # Data From Race & Class
             race_index = 0

@@ -20,10 +20,13 @@ class Information:
         stringVar.set("There are a variety of different lands and cultures in the world of D&D, with a variety" + 
             " of races to match. Each of the races comes with unique special abilities or skills, as shown below.\n\n")
 
-    def dnd_class(self):
+    def dnd_class(self, stringVar):
         print("Classes are essentially the job or role of your character. These influence a character's skills")
         print("and the methods they may use to interact with the world, wether it be through brute force or")
         print("more subtle tactics.")
+        stringVar.set("Classes are essentially the job or role of your character. These influence a character's skills"
+         + "and the methods they may use to interact with the world, wether it be through brute force or"
+         + "more subtle tactics.\n\n")
 
     def stats(self):
         print("Stats are your character's proficiencies with different skills, such as strength or charisma. You")
