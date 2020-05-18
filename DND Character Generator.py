@@ -52,14 +52,17 @@ Things to work on:
 -export to form fillable pdf character sheet
 '''
 
-# Import Tools
+# Import Built-Ins
 import random
 import os
 import tkinter as tk
 # import tkFont
 from tkinter import ttk
+# importing classes
 from StatBuilder import *
 from Information import *
+from ClassInfo_Extra import *
+from BackgroundInfo import *
 from pathlib import Path
 direct = os.getcwd()
 
@@ -96,12 +99,13 @@ def noResponse():
 
 def main():
 
+    class_info = ClassAttributes
+
     # Retrieve Data from Files
     race_data = open(direct + "\\DND Data\\RaceInfo.txt", 'r')
     race_descriptions = open(direct + "\\DND Data\\RaceDescriptions.txt", 'r')
-    class_data = open(direct + "\\DND Data\\ClassInfo.txt", 'r')
-    class_descriptions = open(
-        direct + "\\DND Data\\ClassDescriptions.txt", 'r')
+    #class_data = open(direct + "\\DND Data\\ClassInfo.txt", 'r')
+    class_descriptions = open(direct + "\\DND Data\\ClassDescriptions.txt", 'r')
 
     # Read Files into Lists
     race_data_list = []
@@ -110,20 +114,11 @@ def main():
         entry_list = stripped_line.split(',')
         race_data_list.append(entry_list)
 
-    class_data_list = []
-    for line in class_data:
-        stripped_line = line.strip()
-        entry_list = stripped_line.split(',')
-        class_data_list.append(entry_list)
-
-    race_list = []
-    for i in range(1, len(race_data_list)):
-        if race_data_list[i][0] not in race_list:
-            race_list.append(race_data_list[i][0])
-
-    class_list = []
-    for i in range(1, len(class_data_list)):
-        class_list.append(class_data_list[i][0])
+    # class_data_list = []
+    # for line in class_data:
+    #     stripped_line = line.strip()
+    #     entry_list = stripped_line.split(',')
+    #     class_data_list.append(entry_list)
 
     race_descriptions_list = []
     for line in race_descriptions:
@@ -134,6 +129,15 @@ def main():
     for line in class_descriptions:
         stripped_line = line.strip()
         class_descriptions_list.append(stripped_line)
+
+    race_list = []
+    for i in range(1, len(race_data_list)):
+        if race_data_list[i][0] not in race_list:
+            race_list.append(race_data_list[i][0])
+
+    # class_list = []
+    # for i in range(1, len(class_data_list)):
+    #     class_list.append(class_data_list[i][0])
 
     '''''''''''''''
     Begin Program
@@ -203,9 +207,10 @@ def main():
                         auto_subrace = 'NA'
 
             # Auto Class
-            auto_class = class_list[random.randint(0, len(class_list) - 1)]
-            for i in range(len(class_list)):
-                if auto_class == class_list[i]:
+            auto_class = class_info.class_list[random.randint(0, len(class_info.class_list) - 1)]
+            class_info.set_class(auto_class)
+            for i in range(len(class_info.class_list)):
+                if auto_class == class_info.class_list[i]:
                     class_index = i
 
             # Auto Roll Stats
@@ -228,15 +233,15 @@ def main():
                 auto_stats.boost_list[5] = 2
 
             # Assigning Class Data
-            main_stat = class_data_list[class_index + 1][1]
+            # class_info.prim_stat = class_data_list[class_index + 1][1]
             main_stat_index = -1
             for i in range(6):
-                if main_stat == auto_stats.ordered_list[i]:
+                if class_info.prim_stat == auto_stats.ordered_list[i]:
                     main_stat_index = i
-            armor = class_data_list[class_index + 1][5]
-            shield = class_data_list[class_index + 1][6]
-            weapons = class_data_list[class_index + 1][7]
-            base_hp = int(class_data_list[class_index + 1][2])
+            # armor = class_data_list[class_index + 1][5]
+            # shield = class_data_list[class_index + 1][6]
+            # weapons = class_data_list[class_index + 1][7]
+            # base_hp = int(class_data_list[class_index + 1][2])
 
             # Hill Dwarf Extra Health
             if race_index == 1:
@@ -248,11 +253,11 @@ def main():
             name = random.choice(name_list)
 
             # Auto Stats
-            print("Your primary stat is ", main_stat,
+            print("Your primary stat is ", class_info.prim_stat,
                   " and your rolled stats are: ", auto_stats.my_stats, "", sep='')
-            currentDialog.set("Your primary stat is " + str(main_stat) +
+            currentDialog.set("Your primary stat is " + str(class_info.prim_stat) +
                   " and your rolled stats are: \n" + str(auto_stats.my_stats))
-            auto_stats.assign_stats_auto(main_stat)
+            auto_stats.assign_stats_auto(class_info.prim_stat)
             print()
 
             # Race Bonuses
@@ -269,7 +274,7 @@ def main():
                     con = False
 
                     # Prioritize Main Stat
-                    if (auto_stats.assigned_list[main_stat_index] % 2) == 1 and main_stat != 'CHA':
+                    if (auto_stats.assigned_list[main_stat_index] % 2) == 1 and class_info.prim_stat != 'CHA':
                         auto_stats.assigned_list[main_stat_index] += 1
                         main = True
                         remaining_bonus -= 1
@@ -336,7 +341,7 @@ def main():
                 window.mainloop()
                 if checkResponse:
                     currentDialog.set("Enter the new name of your character below.\nPress yes once done.")
-                    
+
                     nameEntry = tk.Entry(master = mainframe)
                     nameEntry.grid(column = 7, row = 13, columnspan=2, sticky = "nsew")
                     window.mainloop()
@@ -361,7 +366,7 @@ def main():
             while repeat_race == True:
                 print(
                     "We are going to start by choosing a race from the D&D Player's Handbook.")
-                currentDialog.set("We are going to start by choosing" + 
+                currentDialog.set("We are going to start by choosing" +
                     " a race from the D&D Player's Handbook.")
                 if tutorial == True:
                     add_info.race(currentDialog)
@@ -482,7 +487,7 @@ def main():
                     race_index = index
             rec_age = int(race_data_list[race_index][10])
             speed = race_data_list[race_index][8]
-            main_stat = class_data_list[class_index + 1][1]
+            class_info.prim_stat = class_data_list[class_index + 1][1]
             armor = class_data_list[class_index + 1][5]
             shield = class_data_list[class_index + 1][6]
             weapons = class_data_list[class_index + 1][7]
@@ -529,7 +534,7 @@ def main():
             print("Each value can only be used once.")
             print()
             print("The most important stat for a ",
-                  my_class, " is ", main_stat, ".", sep='')
+                  my_class, " is ", class_info.prim_stat, ".", sep='')
             print()
             stat_values.assign_stats()
 

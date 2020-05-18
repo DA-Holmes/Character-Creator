@@ -1,0 +1,14 @@
+[Background];[Skills];[Tools];[Languages];[Equipment (items sep by '&', options set up as 'Description:option1/option2')]
+Acolyte;Insight,Religion;NA;Any2;A Holy Symbol (a gift to you when you entered the priesthood)&A Prayer Book/A Prayer Wheel&5 Sticks of Incense&Vestments&A Set of Common Clothes&A Belt Pouch Containing 15 gp
+Charlatan;Deception,Sleight of Hand;Disguise Kit,Forgery Kit;NA;A set of Fine Clothes&A Disguise Kit&Tools of the Con of Your Choice:ten stoppered bottles filled with colored liquid/a set of weighted dice/a deck of marked cards/or a signet ring of an imaginary duke&A Belt Pouch Containing 15 gp
+Criminal;Deception,Stealth;One Type of Gaming Set,Thieves' Tools;NA;A crowbar&A Set of Dark Common Clothes including a Hood&A Belt Pouch Containing 15 gp
+Entertainer;Acrobatics,Performance;Disguise Kit,One Type of Musical Instrument;NA;A musical instrument of Your Choice&The Favor of an Admirer:love lelter/lock of hair/or a trinket&A Costume&A Belt Pouch Containing 15 gp
+Folk Hero;Animal Handling,Survival;One Type of Artisan's Tools,Land Vehicles;NA;A set of artisan's tools of Your Choice&A Shovel&An Iron Pot&A Set of Common Clothes&A Belt Pouch Containing 10 gp
+Guild Artisan;Insight,Persuasion;One Type of Artisan's Tools;Any1;A set of artisan's tools of Your Choice&A Letter of Introduction from Your Guild&A Set of Traveler's Clothes&A Belt Pouch Containing 15 gp
+Hermit;Medicine,Religion;Herbalism Kit;Any1;A Scroll Case Stuffed Full of Notes from Your Studies or Prayers&A Winter Blanket&A Set of Common Clothes&An Herbalism Kit&5 gp
+Noble;History,Persuasion;One Type of Gaming Set;Any1;A Set of Fine Clothes&A Signet Ring&A Scroll of Pedigree&A Purse Containing 25 gp
+Outlander;Athletics,Survival;One Type of Musical Instrument;Any1;A staff&A Hunting Trap&A Trophy from an Animal you Killed&A Set of Traveler's Clothes&A Belt Pouch Containing 10 gp
+Sage;Arcana,History;NA;Any2;A Bottle of Black Ink&A Quill&A Small Knife&A Letter from a Dead Colleague Posing a Question you have not yet been able to answer&A Set of Common Clothes&A Belt Pouch Containing 10 gp
+Sailor;Athletics,Perception;Navigator's Tools,Water Vehicles;NA;A Belaying Pin (Club)&50 Feet of Silk Rope&A Lucky Charm:A Rabbit Foot/A Small Stone with a Hole in the Center/you may roll for a random trinket on the Trinkets table in chapter 5&A Set of Common Clothes&A Belt Pouch Containing 10 gp
+Soldier;Athletics,Intimidation;One Type of Gaming Set,Land Vehicles;NA;An Insignia of Rank&A Trophy taken from a Fallen Enemy:a dagger/broken blade/piece of a banner)&A Set of Bone Dice/A Deck of Cards&A Set of Common Clothes&A Belt Pouch Containing 10 gp
+Urchin;Sleight of Hand,Stealth;Disguise Kit,Thieves' Tools;NA;A small knife&A Map of the City you grew up in&A Pet Mouse&A Token to remember your parents by&A Set of Common Clothes&A Belt Pouch Containing 10 gp
