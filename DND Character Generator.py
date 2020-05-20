@@ -94,6 +94,11 @@ def noResponse():
     checkResponse = False
     window.quit()
 
+def enter(event):
+    global checkResponse
+    checkResponse = True
+    window.quit()
+
 def main():
 
     # Retrieve Data from Files
@@ -147,6 +152,7 @@ def main():
     window.title("DnD Character Creator")
     window.columnconfigure(0, weight = 1)
     window.rowconfigure(0, weight=1)
+    window.bind('<Return>', enter)
 
     mainframe = tk.Frame(master = window, bg = "#654321", borderwidth=2, relief=tk.RAISED)
     mainframe.grid(column = 0, row = 0, pady = 5, padx = 5, sticky = "nsew")
@@ -168,7 +174,7 @@ def main():
     # Restart Option
     restart = True
     while restart:
-        currentDialog.set("Welcome to The D&D Character Creation Program!\nWould you like assistance using this program?")
+        currentDialog.set("Welcome to The D&D Character Creation Program!\nWould you like assistance using this program?\n\nEnter also registers as yes.")
 
         add_info = Information()
         checkResponse = None
@@ -248,8 +254,8 @@ def main():
             name = random.choice(name_list)
 
             # Auto Stats
-            print("Your primary stat is ", main_stat,
-                  " and your rolled stats are: ", auto_stats.my_stats, "", sep='')
+            # print("Your primary stat is ", main_stat,
+            #       " and your rolled stats are: ", auto_stats.my_stats, "", sep='')
             currentDialog.set("Your primary stat is " + str(main_stat) +
                   " and your rolled stats are: \n" + str(auto_stats.my_stats))
             auto_stats.assign_stats_auto(main_stat)
@@ -314,15 +320,15 @@ def main():
                                 even_stat = max(even_list)
                                 even_stat_index = copy_list.index(even_stat)
                                 auto_stats.assigned_list[even_stat_index] += 1
-                                print("Adding to evens:",
-                                      auto_stats.assigned_list)
+                                # print("Adding to evens:",
+                                #       auto_stats.assigned_list)
                                 remaining_bonus -= 1
 
             # Print Automated Results
             auto_stats.results_data(name, auto_race, auto_subrace,
                                     speed, age, auto_class, base_hp, armor, shield, weapons)
-            statShowcase = tk.StringVar()
             mainDialog.grid(column = 0, row = 0, columnspan = 12, rowspan = 11, sticky = "nsew", padx = 10, pady = 10)
+            statShowcase = tk.StringVar()
             statDialog = tk.Message(master = mainframe, textvariable = statShowcase,
                 anchor = "center", width = 200, font = ("times", fontsize), bg = "#d4c7b2",
                 justify = "left")
@@ -332,7 +338,7 @@ def main():
             # Allow Name Change
             name_change = True
             while name_change == True:
-                currentDialog.set(currentDialog.get() + "Would you like to change your character's name?")
+                currentDialog.set(currentDialog.get() + "\n\nWould you like to change your character's name?")
                 window.mainloop()
                 if checkResponse:
                     currentDialog.set("Enter the new name of your character below.\nPress yes once done.")
@@ -347,7 +353,8 @@ def main():
                     nameEntry.grid_remove()
                 else:
                     name_change = False
-                print()
+
+            currentDialog.set(currentDialog.get()[:-49])
             final = auto_stats
 
         else:
@@ -371,7 +378,7 @@ def main():
                 # Race Options
                 race_chosen = False
                 while race_chosen == False:
-                    print("Choose a race from the list:")
+                    # print("Choose a race from the list:")
                     currentDialog.set(currentDialog.get() + "Choose a race from the list and press yes when done:")
                     selectBox = tk.Listbox(master = mainframe, height = len(race_list), selectbackground = dialogColor,
                         selectmode = "SINGLE", font = ("times", fontsize-2))
@@ -429,12 +436,12 @@ def main():
             while repeat_class == True:
                 selectBox.delete(0, selectBox.size())
                 currentDialog.set("Next, you will choose a class for your character:\n\n")
-                print("")
+
                 if tutorial == True:
                     add_info.dnd_class(currentDialog)
                     print()
                     for entry in class_descriptions_list:
-                        print(entry)
+                        # print(entry)
                         currentDialog.set(currentDialog.get() + entry + "\n\n")
                 else:
                     # print("Choose a class from the following list:")
@@ -443,6 +450,7 @@ def main():
                             currentDialog.set(currentDialog.get() + class_data_list[i][0] + ", ")
                         else:
                             currentDialog.set(currentDialog.get() + class_data_list[i][0])
+                for i in range(1, len(class_data_list)):
                         selectBox.insert(i-1, class_data_list[i][0])
 
                 # Class Options
@@ -488,122 +496,123 @@ def main():
                 base_hp += 1
 
             # Setting Stats
-            print(
-                "Now we are going to determine your character stats for Strength (STR), Dexterity (DEX),")
-            print(
-                "Constitution (CON), Intelligence (INT), Wisdom (WIS), and Charisma (CHA).")
-            print()
+            # print(
+            #     "Now we are going to determine your character stats for Strength (STR), Dexterity (DEX),")
+            # print(
+            #     "Constitution (CON), Intelligence (INT), Wisdom (WIS), and Charisma (CHA).")
+            # print()
+            currentDialog.set("")
+            currentDialog.set("Now we are going to determine your character stats for Strength (STR), Dexterity (DEX), " +
+                "Constitution (CON), Intelligence (INT), Wisdom (WIS), and Charisma (CHA).\n\n")
             if tutorial == True:
-                add_info.stats()
-            print()
+                add_info.stats(currentDialog)
+            # print()
 
             # Display Defaults
-            print("The default stats are:")
+            # print("The default stats are:")
+            currentDialog.set(currentDialog.get() + "The default stats are:\n\n")
             for i in stat_values.my_stats:
-                print(i, '', end='')
-            print()
-            print()
+                # print(i, '', end='')
+                currentDialog.set(currentDialog.get() + str(i) + " ")
+            # print()
+            # print()
+            currentDialog.set(currentDialog.get() + "\n\n Would you like to roll for your stats?")
 
+            window.mainloop()
             # Roll for Stats
-            if boolean("Would you like to roll for your stats? ") == True:
+            if checkResponse:
                 stat_values.roll_stats()
-            else:
-                print("You have chosen the default values.")
-            print()
+            # else:
+            #     print("You have chosen the default values.")
+            # print()
 
             # Assigning Stats
-            print("Now, choose which value you want for each stat.")
-            print("Each value can only be used once.")
-            print()
-            print("The most important stat for a ",
-                  my_class, " is ", main_stat, ".", sep='')
-            print()
-            stat_values.assign_stats()
+            # print("Now, choose which value you want for each stat.")
+            # print("Each value can only be used once.")
+            # print()
+            # print("The most important stat for a ",
+            #       my_class, " is ", main_stat, ".", sep='')
+            # print()
+            statChoice = "Now, choose which value you want for each stat. Each value can"
+            statChoice += " only be used once.\n\nThe most important stat for a %s is %s.\n\n" % (my_class, main_stat)
+            
+            selectBox.delete(0, selectBox.size())
+            selectBox.grid(column = 7, row = 12, columnspan=2, rowspan = 3, sticky = "nsew")
+
+            # currentDialog.set(statChoice)
+            currentDialog.set("")
+            stat_values.assign_stats(currentDialog, statChoice, selectBox, window)
 
             # Half-Elf Customization
             if my_race == 'Half-Elf':
                 # Perform function for this
+                currentDialog.set("Because you are a Half-Elf, you may add 1 to two different" +
+                " stats besides CHA. Select the two you want below.")
+                selectBox.delete(0, selectBox.size())
+                selectBox.config(selectmode = "multiple")
+                for i in range(len(stat_values.ordered_list)-1):
+                    selectBox.insert(i, stat_values.ordered_list_variant[i])
 
-                print(
-                    "Because you are a Half-Elf, you may add 1 to two different stats besides CHA.")
+                while len(selectBox.curselection()) != 2:
+                    window.mainloop()
 
-                # Choose Stats to Boost
-                extra1_good = False
-                while extra1_good == False:
-                    extra1 = input("First stat to boost: ")
-                    first = extra1.lower()
-                    for i in range(len(stat_values.ordered_list)):
-                        if first == stat_values.ordered_list[i].lower():
-                            if first != 'cha':
-                                stat_values.boost_list[i] += 1
-                                extra1_good = True
-                                first_index = i
-                            else:
-                                print("CHA already has a bonus.")
-                    if extra1_good == False:
-                        print("Please enter a valid stat (e.g. 'STR').")
-                    print()
-                extra2_good = False
-                while extra2_good == False:
-                    extra2 = input("Second stat to boost: ")
-                    second = extra2.lower()
-                    for i in range(len(stat_values.ordered_list)):
-                        if second == stat_values.ordered_list[i].lower():
-                            if second != 'cha' and second != first:
-                                stat_values.boost_list[i] += 1
-                                extra2_good = True
-                            elif second == first:
-                                print(
-                                    stat_values.ordered_list[first_index], "already has a bonus.")
-                            elif second == 'cha':
-                                print("CHA already has a bonus.")
-                    if extra2_good == False:
-                        print("Please enter a valid stat (e.g. 'STR').")
-                    print()
+                stat_values.boost_list[selectBox.curselection()[0]] += 1
+                stat_values.boost_list[selectBox.curselection()[1]] += 1
+
+            selectBox.grid_remove()
+
             # Add Stat Bonuses
             for i in range(6):
                 stat_values.assigned_list[i] += stat_values.boost_list[i]
 
             # Choose Age
-            print("Looks good! Now all you need is to set your age and choose a name!")
-            print("The average lifespan of a",
-                  my_race, "is", rec_age, "years.")
-            print()
-            age_chosen = False
-            while age_chosen == False:
-                try:
-                    age = int(input("Your age: "))
-                    if age > rec_age:
-                        if boolean("You have chosen an age past your average lifespan. Are you sure? ") == True:
-                            age_chosen = True
-                    elif age > 0:
-                        age_chosen = True
-                    else:
-                        print("Please enter an age above 0.")
-                except:
-                    print("Please enter a whole number.")
-                print()
+            currentDialog.set("Looks good! Now all you need is to set your age and choose" +
+            " a name! The average lifespan of a %s is %d years.\n\nThis age must be a whole number greater than zero." % (my_race, rec_age))
 
-            # Choose Character Name
-            name = input("What is the name of your character? ")
-            print()
+            ageSpinner = tk.Spinbox(mainframe, from_=1, to=rec_age*1.5, increment=1)
+            ageSpinner.grid(column = 7, row = 13, columnspan=2, sticky = "nsew")
+
+            window.mainloop()
+
+            while (int(ageSpinner.get()) < 0 or int(ageSpinner.get()) > rec_age*1.5):
+                window.mainloop()
+
+            age = int(ageSpinner.get())
+            ageSpinner.grid_remove()
+
+            nameEntry = tk.Entry(master = mainframe)
+            nameEntry.grid(column = 7, row = 13, columnspan=2, sticky = "nsew")
+
+            currentDialog.set("You have chosen to be %d years old, now to decide a name." % age)
+
+            while len(nameEntry.get()) == 0:
+                window.mainloop()
+
+            name = nameEntry.get()
+            nameEntry.grid_remove()
 
             # Print Results
             stat_values.results_data(
                 name, my_race, my_subrace, speed, age, my_class, base_hp, armor, shield, weapons)
-            stat_values.print_results()
+            mainDialog.grid(column = 0, row = 0, columnspan = 12, rowspan = 11, sticky = "nsew", padx = 10, pady = 10)
+            statShowcase = tk.StringVar()
+            statDialog = tk.Message(master = mainframe, textvariable = statShowcase,
+                anchor = "center", width = 200, font = ("times", fontsize), bg = "#d4c7b2",
+                justify = "left")
+            statDialog.grid(column = 12, row = 0, columnspan = 4, rowspan = 11, sticky = "nsew", padx = (0, 10), pady = 10)
+            stat_values.print_results(currentDialog, statShowcase)
             final = stat_values
 
         # Create New File for Bio
-        if boolean("Would you like to write this bio into a file? ") != False:
+        currentDialog.set(currentDialog.get() + "\n\nWould you like to write this bio into a file?")
+        window.mainloop()
+        if checkResponse:
             final.print_results_to_file(name, direct)
 
-        # End of Program
-        print()
-        if boolean("Thank you for using the Character Creation Program! Would you like to start over? ") == False:
+        currentDialog.set("Thank you for using the Character Creation Program! Would you like to start over?")
+        window.mainloop()
+        if not checkResponse:
             restart = False
-            print()
-            print("Goodbye!")
 
     # Close Files
     race_data.close()

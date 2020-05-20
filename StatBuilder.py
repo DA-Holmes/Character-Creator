@@ -38,33 +38,29 @@ class Stats:
         self.my_stats = stats_rolled
 
     # Manual Stat Assignment
-    def assign_stats(self):
+    def assign_stats(self, stringVar, prefix, listbox, window):
         copy_list = self.my_stats
         remaining = []
         for i in range(6):
             remaining.append(max(copy_list))
             copy_list.remove(max(copy_list))
+            listbox.insert(i, remaining[i])
 
         # Display Available Stats and Assign Next
         for stat in self.ordered_list_variant:
-            assign_response_valid = False
-            while assign_response_valid == False:
-                print("Remaining values:")
-                for i in remaining:
-                    print(i, '', end='')
-                print()
-                print("Which value would you like to assign to ", stat, "?", sep='')
-                try:
-                    assign_value = int(input("Value:"))
-                    if assign_value in remaining:
-                        self.assigned_list.append(assign_value)
-                        remaining.remove(assign_value)
-                        assign_response_valid = True
-                    else:
-                        print("Value must be from remaining stats.")
-                except:
-                    print("Value must be from remaining stats.")
-                print()
+            statText = "Remaining values: "
+            for i in remaining:
+                statText += "%d " % i
+            statText += "\n\nWhich value would you like to assign to %s?" % stat
+            stringVar.set(prefix + statText)
+            
+            while len(listbox.curselection()) != 1:
+                window.mainloop()
+
+            assign_value = listbox.curselection()[0]
+            self.assigned_list.append(listbox.get(assign_value))
+            remaining.remove(listbox.get(assign_value))
+            listbox.delete(assign_value)
 
     # Automated Stat Assignment
     def assign_stats_auto(self, main):
@@ -114,46 +110,34 @@ class Stats:
         bio = self.bio
         finalString = "This is your character bio:\n\nName:\t\t%s \nAge:\t\t%d \n" % (bio[0], bio[4])
         statString = "STATS:\n\n"
-        print("This is your character bio:")
-        print()
-        print()
-        print("Name:", bio[0])
-        print("Age:", bio[4])
+
         if bio[2] == 'NA':
-            print("Race:", bio[1])
             finalString += "Race:\t\t%s \n" % bio[1]
         else:
-            print("Race:", bio[2], bio[1])
             finalString += "Race:\t\t%s %s \n" % (bio[2], bio[1])
-        print("Class:", bio[5])
         finalString += "Class:\t\t%s \n" % bio[5]
-        print("Starting Health:", bio[6])
         finalString += "Starting Health:\t%d \n\n" % bio[6]
-        print()
         for i in range(6):
-            print(self.ordered_list[i], ": ", self.assigned_list[i], sep='')
             statString += "%s:\t%d\n" % (self.ordered_list[i], self.assigned_list[i])
-        print()
-        print("Proficiencies")
+        finalString += "\nProficiencies\n"
         if bio[7] == 'All':
-            print("Armor: All armor types")
+            finalString += "Armor: All armor types"
         elif bio[7] == 'NA':
-            print("Armor: No armor types")
+            finalString += "Armor: No armor types"
         else:
-            print("Armor: Up to armor type", bio[7])
-        print("Shield: ", end='')
+            finalString += "Armor: Up to armor type %s" % bio[7]
+        finalString += "\nShield: "
         if bio[8] == 'NA':
-            print("No")
+            finalString += "No"
         else:
-            print(bio[8])
-        print("Weapons: ", end='')
+            finalString += "Yes"
+        finalString += "\nWeapons: "
         if bio[9] == 'Martial':
-            print("Any weapon")
+            finalString += "Any weapon"
         elif bio[9] == 'Simple':
-            print("Simple weapons")
+            finalString += "Simple weapons"
         else:
-            print("You have a unique set of weapon proficiencies")
-        print()
+            finalString += "You have a unique set of weapon proficiencies"
         stringVar.set(finalString)
         statBlock.set(statString)
 
