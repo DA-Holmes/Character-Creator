@@ -50,6 +50,12 @@ Things to work on:
 -Character input (allowing user to enter in data from a preexisting character *insert stats manually*)
 -leveling up a preset character
 -export to form fillable pdf character sheet
+
+
+
+
+write function in mainfile to show results --- from compiled data of class, race, stats, and name/age
+
 '''
 
 # Import Built-Ins
@@ -266,66 +272,11 @@ def main():
 
             # Half-Elf Optimization
             if auto_race == "Half-Elf":
-                remaining_bonus = 2
-                copy_list = auto_stats.assigned_list
+                auto_stats.half_elf_auto(main_stat_index)
 
-                while remaining_bonus > 0:
-                    main = False
-                    con = False
-
-                    # Prioritize Main Stat
-                    if (auto_stats.assigned_list[main_stat_index] % 2) == 1 and class_info.prim_stat != 'CHA':
-                        auto_stats.assigned_list[main_stat_index] += 1
-                        main = True
-                        remaining_bonus -= 1
-
-                    # Next is CON
-                    if (auto_stats.assigned_list[2] % 2) == 1:
-                        auto_stats.assigned_list[2] += 1
-                        con = True
-                        remaining_bonus -= 1
-
-                    # Remaining
-                    if remaining_bonus > 0:
-
-                        # Start by topping off odds
-                        # Make it choose which odd at random
-                        odd_list = []
-                        odd_stat_index = -1
-                        for i in range(5):
-                            if auto_stats.assigned_list[i] % 2 == 1:
-                                odd_list.append(auto_stats.assigned_list[i])
-                        if len(odd_list) > 0:
-                            odd_stat = max(odd_list)
-                            odd_stat_index = copy_list.index(odd_stat)
-                            auto_stats.assigned_list[odd_stat_index] += 1
-                            remaining_bonus -= 1
-                        else:
-
-                            # Double-Check Main Stat
-                            if main == False:
-                                auto_stats.assigned_list[main_stat_index] += 1
-                                main = True
-                                remaining_bonus -= 1
-                            else:
-
-                                #Make it choose which even at random
-                                # Boost Evens Last
-                                even_list = []
-                                for i in range(5):
-                                    if i != (2 or 5 or odd_stat_index):
-                                        even_list.append(
-                                            auto_stats.assigned_list[i])
-                                even_stat = max(even_list)
-                                even_stat_index = copy_list.index(even_stat)
-                                auto_stats.assigned_list[even_stat_index] += 1
-                                print("Adding to evens:",
-                                      auto_stats.assigned_list)
-                                remaining_bonus -= 1
 
             # Print Automated Results
-            auto_stats.results_data(name, auto_race, auto_subrace,
-                                    speed, age, auto_class, base_hp, armor, shield, weapons)
+            auto_stats.results_data(name, auto_race, auto_subrace, speed, age, auto_class, base_hp, armor, shield, weapons)
             statShowcase = tk.StringVar()
             mainDialog.grid(column = 0, row = 0, columnspan = 12, rowspan = 11, sticky = "nsew", padx = 10, pady = 10)
             statDialog = tk.Message(master = mainframe, textvariable = statShowcase,
